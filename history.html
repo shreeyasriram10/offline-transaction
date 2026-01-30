@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History & Sync - CHECKMATES OFFLINE</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="history-page">
+    <div class="main-container">
+        <!-- Header -->
+        <header class="top-header">
+            <button class="btn-back" onclick="goToDashboard()">← Back</button>
+            <h2>Transaction History</h2>
+            <div class="header-spacer"></div>
+        </header>
+
+        <div class="history-grid">
+            <!-- SYNC PANEL -->
+            <section class="card sync-panel">
+                <h3>🔄 Sync with Bank</h3>
+                <div id="syncContent" class="sync-content">
+                    <p class="sync-description">Verify all offline promises with the bank when online</p>
+                    <button class="btn-primary btn-large" onclick="startSync()" id="syncButton">Start Sync Now</button>
+                    <div id="syncProgress" class="sync-progress hidden">
+                        <div class="sync-step">
+                            <span class="step-icon">⏳</span>
+                            <span id="syncStep1">Validating promises...</span>
+                        </div>
+                        <div class="sync-step">
+                            <span class="step-icon">🔍</span>
+                            <span id="syncStep2">Checking for fraud...</span>
+                        </div>
+                        <div class="sync-step">
+                            <span class="step-icon">📊</span>
+                            <span id="syncStep3">Updating trust score...</span>
+                        </div>
+                        <div class="sync-loader">
+                            <div class="loader-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FILTER & SEARCH -->
+            <section class="card filter-section">
+                <h3>Filter Transactions</h3>
+                <div class="filter-controls">
+                    <select id="filterStatus" onchange="applyFilters()">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="synced">Synced</option>
+                        <option value="expired">Expired</option>
+                    </select>
+
+                    <select id="filterZone" onchange="applyFilters()">
+                        <option value="">All Zones</option>
+                        <option value="green">Green Zone</option>
+                        <option value="yellow">Yellow Zone</option>
+                        <option value="red">Red Zone</option>
+                    </select>
+
+                    <input type="text" id="searchTransaction" placeholder="Search by Promise ID or name..." onkeyup="applyFilters()">
+                </div>
+            </section>
+
+            <!-- TRANSACTION LIST -->
+            <section class="card transactions-list-section">
+                <h3>Promise Tokens</h3>
+                <div id="transactionsList" class="transactions-list">
+                    <div class="empty-message">
+                        <p>📭 No transactions yet</p>
+                        <button class="btn-secondary btn-small" onclick="goToPayment()">Make First Payment</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RECEIPT DETAIL VIEW -->
+            <div id="receiptModal" class="modal-overlay hidden">
+                <div class="modal-content modal-receipt">
+                    <button class="modal-close" onclick="closeReceipt()">&times;</button>
+                    <h2>Digital Receipt</h2>
+                    <div id="receiptContent" class="receipt-content">
+                        <!-- Receipt will be populated here -->
+                    </div>
+                    <div class="receipt-actions">
+                        <button class="btn-secondary btn-small" onclick="printReceipt()">🖨️ Print</button>
+                        <button class="btn-secondary btn-small" onclick="downloadReceipt()">⬇️ Download</button>
+                        <button class="btn-secondary btn-large" onclick="closeReceipt()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATS SECTION -->
+            <section class="card stats-section">
+                <h3>📊 Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalTransactions">0</div>
+                        <div class="stat-label">Total Transactions</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalAmount">₹0</div>
+                        <div class="stat-label">Total Amount</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="syncedCount">0</div>
+                        <div class="stat-label">Synced</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="pendingCount">0</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ALERTS & WARNINGS -->
+            <section id="alertsSection" class="card alerts-section hidden">
+                <h3>⚠️ Alerts</h3>
+                <div id="alertsList" class="alerts-list"></div>
+            </section>
+
+            <!-- INFO SECTION -->
+            <section class="card info-section">
+                <h3>ℹ️ About Sync</h3>
+                <ul class="info-list">
+                    <li><strong>Promise Token:</strong> Your offline payment record</li>
+                    <li><strong>Pending:</strong> Waiting to sync with the bank</li>
+                    <li><strong>Synced:</strong> Bank verified and confirmed</li>
+                    <li><strong>Expired:</strong> Token expired (not synced in time)</li>
+                    <li><strong>Zone Color:</strong> Risk level when transaction was created</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="static/js/app.js"></script>
+    <script src="static/js/trust.js"></script>
+    <script src="static/js/ai.js"></script>
+    <script src="static/js/history.js"></script>
+</body>
+</html>

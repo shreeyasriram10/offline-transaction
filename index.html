@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHECKMATES OFFLINE - Secure Payment System</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="checkmates-watermark">CheckMates welcomes you</div>
+        
+        <div class="login-card">
+            <div class="logo-section">
+                <div class="logo-icon">📱</div>
+                <h1>CHECKMATES OFFLINE</h1>
+                <p class="tagline">Offline Payment • Powered by Trust Verification</p>
+            </div>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="login">Sign In</button>
+                <button class="tab-btn" data-tab="signup">Create Account</button>
+            </div>
+
+            <!-- LOGIN TAB -->
+            <div id="login" class="tab-content active">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginAccountID">Account ID</label>
+                        <input type="text" id="loginAccountID" placeholder="Enter your Account ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPIN">PIN</label>
+                        <input type="password" id="loginPIN" placeholder="Enter your 4-6 digit PIN" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large">Sign In</button>
+                </form>
+
+                <div class="security-info">
+                    <span class="info-icon">🔒</span>
+                    <p>Your PIN protects offline trust</p>
+                </div>
+            </div>
+
+            <!-- SIGNUP TAB -->
+            <div id="signup" class="tab-content">
+                <form id="signupForm" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupAccountID">Account ID</label>
+                        <input type="text" id="signupAccountID" placeholder="Create unique Account ID" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPIN">Create PIN</label>
+                        <input type="password" id="signupPIN" placeholder="4-6 digits" maxlength="6" required onkeyup="checkPINStrength(this.value)">
+                        <div class="pin-strength">
+                            <div class="strength-meter">
+                                <div id="strengthBar" class="strength-bar"></div>
+                            </div>
+                            <span id="strengthText" class="strength-text">Weak</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPIN">Confirm PIN</label>
+                        <input type="password" id="confirmPIN" placeholder="Re-enter PIN" maxlength="6" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large">Create Account</button>
+                </form>
+
+                <div class="security-info">
+                    <span class="info-icon">🔐</span>
+                    <p>Your account is protected by military-grade encryption</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="#demo">See Demo</a>
+            <a href="#about">About CHECKMATES</a>
+            <a href="#security">Security & Trust</a>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="static/js/app.js"></script>
+    <script src="static/js/trust.js"></script>
+    <script src="static/js/ai.js"></script>
+</body>
+</html>

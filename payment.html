@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - CHECKMATES OFFLINE</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="payment-page">
+    <div class="main-container">
+        <!-- Header -->
+        <header class="top-header">
+            <button class="btn-back" onclick="goToDashboard()">← Back</button>
+            <h2>Make Payment</h2>
+            <div class="header-spacer"></div>
+        </header>
+
+        <div class="payment-grid">
+            <!-- PAYMENT FORM -->
+            <section class="card payment-form-section">
+                <h3>Payment Details</h3>
+                <form id="paymentForm" onsubmit="processPayment(event)">
+                    <div class="form-group">
+                        <label for="senderName">Your Name</label>
+                        <input type="text" id="senderName" placeholder="Sender name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="receiverName">Receiver Name</label>
+                        <input type="text" id="receiverName" placeholder="Who receives this payment?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <div class="input-with-currency">
+                            <span class="currency">₹</span>
+                            <input type="number" id="amount" placeholder="0.00" min="1" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentMode">Payment Mode</label>
+                        <select id="paymentMode" onchange="updateModeInfo()">
+                            <option value="normal">Normal Mode - Standard safety</option>
+                            <option value="emergency">🚨 Emergency Mode - Higher limits</option>
+                            <option value="lend">💳 Lend Mode - P2P lending</option>
+                        </select>
+                    </div>
+
+                    <div id="modeInfo" class="mode-info">
+                        <p><strong>Normal Mode:</strong> Full security checks, standard limits</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senderPIN">Your PIN</label>
+                        <input type="password" id="senderPIN" placeholder="Enter PIN" maxlength="6" required>
+                    </div>
+
+                    <div id="emergencyPINGroup" class="form-group hidden">
+                        <label for="receiverPIN">Receiver PIN (Emergency)</label>
+                        <input type="password" id="receiverPIN" placeholder="Receiver's PIN for emergency" maxlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="saveTrusted">
+                            Save <span id="receiverNameLabel">receiver</span> as trusted person
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large">Process Payment</button>
+                </form>
+            </section>
+
+            <!-- AI DECISION PANEL -->
+            <section class="card ai-decision-section">
+                <h3>🤖 AI Analysis</h3>
+                <div id="aiDecisionContent" class="ai-decision-content">
+                    <div class="ai-loading">
+                        <div class="spinner"></div>
+                        <p>Waiting for payment details...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROMISE TOKEN PREVIEW -->
+            <section id="promiseSection" class="card promise-token-section hidden">
+                <h3>Promise Token Generated</h3>
+                <div class="promise-token">
+                    <div class="token-item">
+                        <span class="token-label">Promise ID</span>
+                        <span class="token-value" id="promiseID">---</span>
+                    </div>
+                    <div class="token-item">
+                        <span class="token-label">Timestamp</span>
+                        <span class="token-value" id="promiseTime">---</span>
+                    </div>
+                    <div class="token-item">
+                        <span class="token-label">Device Signature</span>
+                        <span class="token-value token-signature" id="deviceSig">---</span>
+                    </div>
+                    <div class="token-item">
+                        <span class="token-label">Expiry</span>
+                        <span class="token-value" id="promiseExpiry">---</span>
+                    </div>
+                    <div class="token-item">
+                        <span class="token-label">AI Decision</span>
+                        <span class="token-value" id="promiseDecision">---</span>
+                    </div>
+                </div>
+                <div class="anti-double-spend-shield">
+                    <span class="shield-icon">🛡️</span>
+                    <p>Anti-Double-Spending Protection Active • Unique token prevents duplicate claims</p>
+                </div>
+            </section>
+
+            <!-- TRUSTED PERSONS -->
+            <section class="card trusted-section">
+                <h3>Trusted People</h3>
+                <div id="trustedList" class="trusted-list">
+                    <p class="empty-message">No trusted people yet. Save after successful payment.</p>
+                </div>
+            </section>
+
+            <!-- SPLIT PAYMENT OPTION -->
+            <section class="card split-section">
+                <h3>💸 Split Payment</h3>
+                <p class="info-text">Split this amount with friends (optional)</p>
+                <button class="btn-secondary btn-small" onclick="toggleSplitMode()">Enable Split Mode</button>
+                <div id="splitModeContent" class="split-mode-content hidden">
+                    <div id="splitParticipants" class="split-participants"></div>
+                    <button class="btn-secondary btn-small" onclick="addSplitPerson()">+ Add Person</button>
+                </div>
+            </section>
+
+            <!-- HELP & EXAMPLES -->
+            <section class="card help-section">
+                <h3>❓ Payment Help</h3>
+                <ul class="help-list">
+                    <li><strong>Normal Payment:</strong> Instant verification, standard limits</li>
+                    <li><strong>Emergency Payment:</strong> Higher limits, identity confirmed post-sync</li>
+                    <li><strong>Lend Mode:</strong> P2P lending with repayment tracking</li>
+                    <li><strong>Promise Token:</strong> Proves payment intent offline, synced later</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- SUCCESS MODAL -->
+        <div id="successModal" class="modal-overlay hidden">
+            <div class="modal-content modal-success">
+                <div class="success-icon">✓</div>
+                <h2>Payment Promise Created!</h2>
+                <div id="successDetails" class="success-details"></div>
+                <button class="btn-primary btn-large" onclick="makeAnotherPayment()">Make Another Payment</button>
+                <button class="btn-secondary btn-large" onclick="goToHistory()">View History</button>
+            </div>
+        </div>
+
+        <!-- PAYMENT CONFIRMATION PANEL -->
+        <div id="paymentConfirmationPanel" class="confirmation-panel hidden">
+            <div class="confirmation-header">
+                <button class="back-btn" onclick="hidePaymentConfirmation()">
+                    <span class="back-icon">←</span> Go Back
+                </button>
+            </div>
+            <div class="confirmation-content">
+                <div class="confirmation-icon">✓</div>
+                <h3>Payment Confirmed</h3>
+                <div id="confirmationDetails" class="confirmation-details"></div>
+                <div class="confirmation-actions">
+                    <button class="btn-primary" onclick="confirmPaymentAction()">Confirm Payment</button>
+                    <button class="btn-secondary" onclick="cancelPaymentAction()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ALERT MODAL -->
+        <div id="alertModal" class="modal-overlay hidden">
+            <div class="modal-content modal-alert">
+                <button class="modal-close" onclick="closeAlert()">&times;</button>
+                <h2 id="alertTitle">Alert</h2>
+                <p id="alertMessage"></p>
+                <div id="alertActions" class="alert-actions">
+                    <button class="btn-secondary btn-large" onclick="closeAlert()">Okay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="static/js/app.js"></script>
+    <script src="static/js/trust.js"></script>
+    <script src="static/js/ai.js"></script>
+    <script src="static/js/payment.js"></script>
+</body>
+</html>
