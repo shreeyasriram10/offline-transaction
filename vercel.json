@@ -1,9 +1,8 @@
 {
-  "version": 2,
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/server.js"
-    }
+  "routes": [
+    { "src": "/", "dest": "/dashboard.html" },
+    { "src": "/payment", "dest": "/payment.html" },
+    { "src": "/history", "dest": "/history.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
