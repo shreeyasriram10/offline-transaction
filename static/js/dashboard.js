@@ -331,14 +331,12 @@ function viewDeviceDetails() {
     `;
 
     // Add modal to page
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-    // Show modal
+    document.body.insertAdjacentHTML('beforeend', modalHTML)
     setTimeout(() => {
         document.getElementById('deviceDetailsModal').classList.add('show');
     }, 10);
 }
-
+s
 function closeDeviceDetailsModal() {
     const modal = document.getElementById('deviceDetailsModal');
     if (modal) {

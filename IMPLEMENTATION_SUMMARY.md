@@ -12,8 +12,8 @@ Your **CHECKMATES OFFLINE** system has been successfully upgraded with all reque
 ✅ **HTML Pages** (4 files)
 - index.html - Title, headers, footer
 - dashboard.html - App title, headers
-- payment.html - Page title
-- history.html - Page title
+- payment.html - Page titleeq 
+- history.html - Page title7
 
 ✅ **JavaScript Modules** (6 files)
 - app.js - Comments, success messages

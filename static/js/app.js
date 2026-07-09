@@ -18,28 +18,13 @@ const appState = {
     lastSync: null
 };
 
-// LOCAL STORAGE KEYS
-const STORAGE_KEYS = {
-    USERS: 'offpay_users',
-    TRANSACTIONS: 'offpay_transactions',
-    TRUSTED: 'offpay_trusted',
+// LOCAL STORAGE KEYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     DEVICE_ID: 'offpay_device_id',
     DEVICE_CREATED_AT: 'offpay_device_created_at',
     TRUST_HISTORY: 'offpay_trust_history'
 };
 
-// ========================================
-// INITIALIZATION
-// ========================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-    setupEventListeners();
-    checkIfLoggedIn();
-    initializeOnlineStatus();
-});
-
-function initializeApp() {
+export function initializeApp() {
     // Load device ID from storage or generate new one
     let savedDeviceID = localStorage.getItem(STORAGE_KEYS.DEVICE_ID);
     if (!savedDeviceID) {
@@ -70,7 +55,7 @@ function initializeApp() {
     }
 }
 
-function setupEventListeners() {
+export function setupEventListeners() {
     // Tab switching on login page
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
@@ -214,7 +199,7 @@ function handleSignup(event) {
     }, 500);
 }
 
-function checkIfLoggedIn() {
+export function checkIfLoggedIn() {
     // Check sessionStorage first
     const sessionUser = sessionStorage.getItem('offpay_logged_in_user');
     if (sessionUser) {
@@ -357,7 +342,7 @@ function goToHistory() {
 // REAL-TIME ONLINE STATUS DETECTION
 // ========================================
 
-function initializeOnlineStatus() {
+export function initializeOnlineStatus() {
     // Set initial status based on navigator.onLine
     appState.isOnline = navigator.onLine;
     updateOnlineStatus();
