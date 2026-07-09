@@ -336,7 +336,7 @@ function viewDeviceDetails() {
         document.getElementById('deviceDetailsModal').classList.add('show');
     }, 10);
 }
-s
+
 function closeDeviceDetailsModal() {
     const modal = document.getElementById('deviceDetailsModal');
     if (modal) {

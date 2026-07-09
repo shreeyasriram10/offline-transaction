@@ -18,13 +18,17 @@ const appState = {
     lastSync: null
 };
 
-// LOCAL STORAGE KEYS                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+// LOCAL STORAGE KEYS
+const STORAGE_KEYS = {
+    USERS: 'offpay_users',
+    TRANSACTIONS: 'offpay_transactions',
+    TRUSTED: 'offpay_trusted',
     DEVICE_ID: 'offpay_device_id',
     DEVICE_CREATED_AT: 'offpay_device_created_at',
     TRUST_HISTORY: 'offpay_trust_history'
 };
 
-export function initializeApp() {
+function initializeApp() {
     // Load device ID from storage or generate new one
     let savedDeviceID = localStorage.getItem(STORAGE_KEYS.DEVICE_ID);
     if (!savedDeviceID) {
@@ -55,7 +59,7 @@ export function initializeApp() {
     }
 }
 
-export function setupEventListeners() {
+function setupEventListeners() {
     // Tab switching on login page
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
@@ -199,7 +203,7 @@ function handleSignup(event) {
     }, 500);
 }
 
-export function checkIfLoggedIn() {
+function checkIfLoggedIn() {
     // Check sessionStorage first
     const sessionUser = sessionStorage.getItem('offpay_logged_in_user');
     if (sessionUser) {
@@ -342,7 +346,7 @@ function goToHistory() {
 // REAL-TIME ONLINE STATUS DETECTION
 // ========================================
 
-export function initializeOnlineStatus() {
+function initializeOnlineStatus() {
     // Set initial status based on navigator.onLine
     appState.isOnline = navigator.onLine;
     updateOnlineStatus();
@@ -426,7 +430,9 @@ function calculateStarsFromTransactions(user) {
 }
 
 // Make function globally available
-window.calculateStarsFromTransactions = calculateStarsFromTransactions;
+if (typeof window !== 'undefined') {
+    window.calculateStarsFromTransactions = calculateStarsFromTransactions;
+}
 
 function checkIfOldUser(user) {
     // Check multiple criteria to determine if user is "old"
@@ -480,5 +486,32 @@ function closeReceipt() {
 }
 
 // Export for use in other files
-window.appState = appState;
-window.STORAGE_KEYS = STORAGE_KEYS;
+if (typeof window !== 'undefined') {
+    window.appState = appState;
+    window.STORAGE_KEYS = STORAGE_KEYS;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        initializeApp,
+        setupEventListeners,
+        checkIfLoggedIn,
+        initializeOnlineStatus
+    };
+}
+
+if (typeof window !== 'undefined') {
+    window.handleLogin = handleLogin;
+    window.handleSignup = handleSignup;
+    window.checkPINStrength = checkPINStrength;
+    window.switchTabProgrammatically = switchTabProgrammatically;
+    window.showToast = showToast;
+    window.hideToast = hideToast;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeApp();
+        setupEventListeners();
+        checkIfLoggedIn();
+        initializeOnlineStatus();
+    });
+}
