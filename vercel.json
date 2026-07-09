@@ -1,6 +1,7 @@
 {
   "routes": [
     { "src": "/", "dest": "/dashboard.html" },
+    { "src": "/dashboard", "dest": "/dashboard.html" },
     { "src": "/payment", "dest": "/payment.html" },
     { "src": "/history", "dest": "/history.html" },
     { "src": "/(.*)", "dest": "/$1" }

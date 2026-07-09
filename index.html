@@ -3,204 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - CHECKMATES OFFLINE</title>
+    <title>CHECKMATES OFFLINE - Secure Payment System</title>
     <link rel="stylesheet" href="static/css/style.css">
 </head>
-<body class="dashboard-page">
-    <div class="main-container">
-        <!-- Header -->
-        <header class="top-header">
-            <div class="header-left">
-                <h2 class="app-title">CHECKMATES OFFLINE</h2>
-                <span class="user-greeting" id="userGreeting">Welcome Back</span>
+<body class="login-page">
+    <div class="login-container">
+        <div class="checkmates-watermark">CheckMates welcomes you</div>
+        
+        <div class="login-card">
+            <div class="logo-section">
+                <div class="logo-icon">📱</div>
+                <h1>CHECKMATES OFFLINE</h1>
+                <p class="tagline">Offline Payment • Powered by Trust Verification</p>
             </div>
-            <div class="header-right">
-                <div class="game-points-display">
-                    <span class="points-icon">⭐</span>
-                    <span class="points-value" data-points-display>0</span>
-                </div>
-                <div class="status-badge">
-                    <span id="deviceTrust" class="trust-indicator">✓ Device Trusted</span>
-                    <span id="onlineStatus" class="online-status offline-badge">📡 Offline Mode</span>
-                </div>
-                <button class="btn-icon logout-btn" onclick="handleLogout()" title="Logout">🚪</button>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="login">Sign In</button>
+                <button class="tab-btn" data-tab="signup">Create Account</button>
             </div>
-        </header>
 
-        <div class="dashboard-grid">
-            <!-- MAIN TRUST SCORE SECTION -->
-            <section class="card card-featured trust-section">
-                <h3>Your Trust Score</h3>
-                <div class="trust-circle-container">
-                    <svg class="trust-circle" viewBox="0 0 200 200">
-                        <circle cx="100" cy="100" r="90" class="circle-bg"></circle>
-                        <circle cx="100" cy="100" r="90" class="circle-progress" id="trustCircle"></circle>
-                    </svg>
-                    <div class="trust-content">
-                        <div class="trust-score" id="trustScore">35</div>
-                        <div class="trust-label">Trust %</div>
-                        <div class="stars-display" id="trustStars">☆☆☆☆☆</div>
+            <!-- LOGIN TAB -->
+            <div id="login" class="tab-content active">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginAccountID">Account ID</label>
+                        <input type="text" id="loginAccountID" placeholder="Enter your Account ID" required>
                     </div>
+
+                    <div class="form-group">
+                        <label for="loginPIN">PIN</label>
+                        <input type="password" id="loginPIN" placeholder="Enter your 4-6 digit PIN" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large">Sign In</button>
+                </form>
+
+                <div class="security-info">
+                    <span class="info-icon">🔒</span>
+                    <p>Your PIN protects offline trust</p>
                 </div>
+            </div>
 
-                <div class="trust-zone-indicator">
-                    <div id="zoneDisplay" class="zone-badge zone-green">
-                        <span class="zone-icon">✓</span> Green Zone
+            <!-- SIGNUP TAB -->
+            <div id="signup" class="tab-content">
+                <form id="signupForm" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
                     </div>
-                    <p id="zoneDescription" class="zone-description">Low Risk • Full Limits Available</p>
-                </div>
 
-                <div class="trust-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">Recent Activity</span>
-                        <span class="stat-value" id="recentActivity">Safe</span>
+                    <div class="form-group">
+                        <label for="signupAccountID">Account ID</label>
+                        <input type="text" id="signupAccountID" placeholder="Create unique Account ID" required>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Fraud History</span>
-                        <span class="stat-value" id="fraudStatus">None</span>
-                    </div>
-                </div>
-            </section>
 
-        </div>
-
-        <!-- QUICK ACTIONS (CENTERED IN MIDDLE) -->
-        <div class="quick-actions-center">
-            <section class="card actions-section">
-                <h3>🎯 Quick Actions</h3>
-                <div class="action-buttons-grid">
-                    <button class="action-btn btn-payment" id="paymentBtn" type="button">
-                        <span class="btn-icon-large">💸</span>
-                        <span class="btn-text">Make Payment</span>
-                    </button>
-                    <button class="action-btn btn-emergency" id="emergencyBtn" type="button">
-                        <span class="btn-icon-large">🚨</span>
-                        <span class="btn-text">Emergency Mode</span>
-                    </button>
-                    <button class="action-btn btn-history" id="historyBtn" type="button">
-                        <span class="btn-icon-large">📜</span>
-                        <span class="btn-text">History</span>
-                    </button>
-                    <button class="action-btn btn-sync" id="syncBtn" type="button">
-                        <span class="btn-icon-large">🔄</span>
-                        <span class="btn-text">Sync Now</span>
-                    </button>
-                </div>
-            </section>
-        </div>
-
-        <div class="dashboard-grid-lower">
-            <section class="card ai-status-panel">
-                <h3>🤖 AI Monitor</h3>
-                <div class="ai-status-content">
-                    <div class="ai-messages-container" id="aiMessagesContainer">
-                        <div class="ai-message">🔍 Initializing AI Monitor...</div>
-                        <div class="ai-message">🔒 Loading security systems...</div>
-                        <div class="ai-message">📊 Analyzing user data...</div>
+                    <div class="form-group">
+                        <label for="signupPIN">Create PIN</label>
+                        <input type="password" id="signupPIN" placeholder="4-6 digits" maxlength="6" required onkeyup="checkPINStrength(this.value)">
+                        <div class="pin-strength">
+                            <div class="strength-meter">
+                                <div id="strengthBar" class="strength-bar"></div>
+                            </div>
+                            <span id="strengthText" class="strength-text">Weak</span>
+                        </div>
                     </div>
-                </div>
-            </section>
-        </div>
 
-        <!-- CENTERED INFO SECTIONS -->
-        <div class="centered-info-container">
-            <!-- DEVICE TRUST -->
-            <section class="card device-trust-section">
-                <h3>Device Trust Profile</h3>
-                <div class="device-info">
-                    <div class="device-item">
-                        <span class="device-label">Device ID</span>
-                        <span class="device-value" id="deviceID">DEV-2026-001A</span>
+                    <div class="form-group">
+                        <label for="confirmPIN">Confirm PIN</label>
+                        <input type="password" id="confirmPIN" placeholder="Re-enter PIN" maxlength="6" required>
                     </div>
-                    <div class="device-item">
-                        <span class="device-label">Device Age</span>
-                        <span class="device-value" id="deviceAge">1st time user</span>
-                    </div>
-                    <div class="device-item">
-                        <span class="device-label">Transactions</span>
-                        <span class="device-value" id="txnCount">0</span>
-                    </div>
-                </div>
-                <button class="btn-secondary btn-small" onclick="viewDeviceDetails()">View Details</button>
-            </section>
-            
-            <!-- INFO SECTION -->
-            <section class="card info-section">
-                <h3>ℹ️ How CHECKMATES OFFLINE Works</h3>
-                <ul class="info-list">
-                    <li><strong>Offline First:</strong> Transactions work without internet using Promise Tokens</li>
-                    <li><strong>Trust Verification:</strong> Smart scoring based on device, behavior, and history</li>
-                    <li><strong>Secure Offline:</strong> Your PIN + Trust verification = Safe offline trust</li>
-                    <li><strong>Sync When Ready:</strong> Verify with bank when online</li>
-                </ul>
-            </section>
-        </div>
 
-        <!-- EMERGENCY MODE OVERLAY -->
-        <div id="emergencyOverlay" class="modal-overlay hidden">
-            <div class="modal-content modal-emergency">
-                <button class="modal-close" onclick="closeEmergency()">&times;</button>
-                <h2>🚨 Emergency Payment Mode</h2>
-                <p class="emergency-description">Higher transaction limits during crisis. Post-sync security verification required.</p>
-                <div class="emergency-options">
-                    <button class="btn-primary btn-large" onclick="proceedEmergency()">Activate Emergency Mode</button>
-                    <button class="btn-secondary btn-large" onclick="closeEmergency()">Cancel</button>
+                    <button type="submit" class="btn-primary btn-large">Create Account</button>
+                </form>
+
+                <div class="security-info">
+                    <span class="info-icon">🔐</span>
+                    <p>Your account is protected by military-grade encryption</p>
                 </div>
             </div>
         </div>
 
-        <!-- SYNC STATUS MODAL -->
-        <div id="syncModal" class="modal-overlay hidden">
-            <div class="modal-content modal-sync">
-                <button class="modal-close" onclick="closeSyncModal()">&times;</button>
-                <h2>🔄 Sync Status</h2>
-                <div id="syncStatusContent" class="sync-status-content">
-                    <div class="sync-progress">
-                        <div class="sync-step" id="syncStep1">⏳ Validating promises...</div>
-                        <div class="sync-step" id="syncStep2">⏳ Checking for fraud...</div>
-                        <div class="sync-step" id="syncStep3">⏳ Updating trust score...</div>
-                        <div class="sync-step" id="syncStep4">⏳ Finalizing sync...</div>
-                    </div>
-                    <div id="syncResult" class="sync-result hidden">
-                        <div class="sync-success">✅ Sync Complete!</div>
-                        <div class="sync-details">All transactions verified and trust score updated.</div>
-                    </div>
-                </div>
-                <div class="modal-actions">
-                    <button class="btn-secondary btn-large" onclick="closeSyncModal()">Close</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDING MONITOR PANEL -->
-        <div id="slidingMonitor" class="sliding-monitor">
-            <button class="monitor-toggle" id="monitorToggle" title="Press 'M' to toggle">📊</button>
-            <div class="monitor-content">
-                <div class="monitor-header">
-                    <h3>🤖 Device Monitor</h3>
-                    <button class="monitor-close" onclick="closeMonitor()">&times;</button>
-                </div>
-                <div class="monitor-buttons">
-                    <button class="monitor-btn" id="monitorBtn1" title="Press '1' or Click">
-                        <span class="monitor-icon">👆</span>
-                        <span class="monitor-label">Fingerprint</span>
-                        <span class="monitor-status">Ready</span>
-                    </button>
-                    <button class="monitor-btn" id="monitorBtn2" title="Press '2' or Click">
-                        <span class="monitor-icon">🔐</span>
-                        <span class="monitor-label">PIN Verify</span>
-                        <span class="monitor-status">Ready</span>
-                    </button>
-                    <button class="monitor-btn" id="monitorBtn3" title="Press '3' or Click">
-                        <span class="monitor-icon">📍</span>
-                        <span class="monitor-label">Location</span>
-                        <span class="monitor-status">Ready</span>
-                    </button>
-                </div>
-                <div class="monitor-info" id="monitorInfo">
-                    Press 'M' to toggle • Use 1-3 or click buttons • Any key to authenticate
-                </div>
-            </div>
+        <div class="footer-links">
+            <a href="#demo">See Demo</a>
+            <a href="#about">About CHECKMATES</a>
+            <a href="#security">Security & Trust</a>
         </div>
     </div>
 
@@ -210,6 +96,5 @@
     <script src="static/js/app.js"></script>
     <script src="static/js/trust.js"></script>
     <script src="static/js/ai.js"></script>
-    <script src="static/js/dashboard.js"></script>
 </body>
 </html>
