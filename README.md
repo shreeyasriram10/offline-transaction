@@ -20,6 +20,7 @@
 
 ---
 
+
 ## 📱 Project Overview
 
 **CHECKMATES OFFLINE** is a revolutionary offline payment system designed for situations where internet connectivity is unreliable or unavailable. It combines AI-assisted trust verification with trust-based scoring to enable secure peer-to-peer transactions without real-time bank connectivity.
@@ -59,6 +60,7 @@
   - Transaction pattern analysis
   - Suspicious activity detection
   - Receiver verification
+  
 
 - **Decision Types**:
   - ✓ **ALLOW**: Direct approval
@@ -674,5 +676,7 @@ Feel free to modify, deploy, and improve!
 
 *CHECKMATES OFFLINE - Trust-Based Offline Payment System*
 *"When the internet goes down, trust goes up."*
-#   o f f l i n e - t r a n s a c t i o n  
+#   o f f l i n e - t r a n s a c t i o n 
+DONE BY CHECKMATES 
+ 
  
